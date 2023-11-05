@@ -8,6 +8,12 @@ const STORE = path.join(__dirname, "store");
 type Key = string;
 type Value = unknown;
 
+export function getKey(value: Value): Key {
+  const { raw, type } = serialize(value);
+  const key: Key = `${hash(raw)}-${type}`;
+  return key;
+}
+
 export async function storeValue(value: Value): Promise<Key> {
   const { raw, type } = serialize(value);
   const key: Key = `${hash(raw)}-${type}`;
@@ -71,7 +77,7 @@ async function compute<In extends Value, Out extends Value>(
   input: In,
   fn: (x: In) => Promise<Out>,
 ): Promise<Out> {
-  const inputKey = await storeValue(input);
+  const inputKey = getKey(input);
   const key = `out:${inputKey}`;
   return fetchValue<Out>(key).catch(async (err: any) => {
     if (err.code !== "ENOENT") throw err;
@@ -88,7 +94,7 @@ export function computation<
   Out extends Value,
 >(config: C, fn: (inputs: In, config: C) => Promise<Out>) {
   return async (inputs: In) => {
-    const configKey = await storeValue(config);
+    const configKey = getKey(config);
     const combinedInput = {
       configKey,
       inputs,
