@@ -1,0 +1,21 @@
+{
+  "name": "iredb",
+  "packageManager": "yarn@3.4.1",
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "prettier": "^3.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "fast-json-stable-stringify": "^2.1.0"
+  },
+  "description": "A content-addressable stored for incremental recomputation.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node-dev ./src/test.ts"
+  },
+  "author": "David Vázquez Púa <davazp@gmail.com>",
+  "license": "MIT"
+}
